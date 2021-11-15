@@ -11,12 +11,23 @@ export const appendImages = (images, key) => {
     var imageBase64 = bytes.toString(CryptoJS.enc.Utf8);
     console.log(imageBase64);
     let p = document.createElement("p");
-    p.innerText = `${parseInt(i) + 1})\n`;
+    // p.innerText = `${parseInt(i) + 1})\n`;
     var image = new Image();
     image.src = imageBase64;
+
+
+    localStorage.setItem('imgUrl', image.src);
+
     image.classList.add("img-fluid");
     image.style.width = "75%";
-    div.appendChild(p);
+    // div.appendChild(p);
+
+    const link = document.createElement("a");
+          link.href = imageBase64;
+          link.setAttribute("download", "image.png"); 
+          document.body.appendChild(link);
+          // link.download="image.png"
+          // link.click();
     div.appendChild(image);
     div.style.margin = "10px";
 

@@ -34,9 +34,21 @@ const Home = () => {
       setimages(data.data);
     } else alert(data.msg);
   };
+
+  //download image
+  const download = async (imgUrl) =>{
+    const link = document.createElement("a");
+          link.href = imgUrl;
+          // link.setAttribute("download", "image.png"); 
+          // document.body.appendChild(link);
+          link.download="image.png"
+          link.click();
+  }
   useEffect(() => {
     const pk = window.localStorage.getItem("privateKey");
     const u = window.localStorage.getItem("user");
+
+
     if (!pk || !u) {
       alert("Login first.");
       window.location.assign("/login");
@@ -52,10 +64,12 @@ const Home = () => {
     appendImages(images, privateKey);
   }, [images.length]);
 
+  const imgUrl = window.localStorage.getItem("imgUrl");
+  console.log(imgUrl)
   return (
     <>
       <div className="">
-        <div className="w-75 container d-flex flex-column bd-highlight mb-3 mt-5 shadow-lg p-0 mb-5 bg-light  border-round2 ">
+        <div className="w-50 container d-flex flex-column bd-highlight mb-3 mt-5 shadow-lg p-0 mb-5 bg-light  border-round2 ">
           <div className="d-flex justify-content-between p-0 bd-highlight border-round1  bg-success mt-0 mb-0 ml-0 mr-0 px-5 ">
             <h2 className=" mt-4 mb-4">Greetings! {user?.username}</h2>
             <div>
@@ -65,13 +79,22 @@ const Home = () => {
             </div>
           </div>
           
-          <div className="p-0 bd-highlight bg-light h- ">
+          <div className="p-0 bd-highlight  bg-light  ">
             <center><h4 className="card-title mt-0 p-3">Here are your uploaded photos</h4></center>
 
-            <div className="  d-flex justify-content-around ">
-            <div id="allMedia" className="w-75 ">
-            <button>down</button>
-            </div>
+
+            <div className=" d-flex justify-content-between flex-column  ">
+            
+         
+            <center>          
+            <div 
+            id="allMedia" 
+            className="w-100"
+            onClick={download}>   
+            </div>   
+            </center>
+       
+            
             </div>
            
 
