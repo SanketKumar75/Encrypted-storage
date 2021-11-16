@@ -20,30 +20,29 @@ const Home = () => {
 
   const getImages = async (userId, pageNumber, numEachPage) => {
     if (!userId) return;
-    let data = await axios.get(
-      `uploads/all_media/${userId}/${pageNumber}/${numEachPage}`
-    );
-    data = await data.data;
-    console.log(data);
-    if (data.status == 1) {
-      if (data.data.length == 0 && pageNumber != 0) {
-        setpageNum(pageNumber - 1);
-        alert("No more data found.");
-        return;
-      }
-      setimages(data.data);
-    } else alert(data.msg);
+    try {
+      let data = await axios.get(
+        `uploads/all_media/${userId}/${pageNumber}/${numEachPage}`
+      );
+      data = await data.data;
+      console.log(data);
+      if (data.status == 1) {
+        if (data.data.length == 0 && pageNumber != 0) {
+          setpageNum(pageNumber - 1);
+          alert("No more data found.");
+          return;
+        }
+        setimages(data.data);
+      } else alert(data.msg);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   //download image
-  const download = async (imgUrl) =>{
-    const link = document.createElement("a");
-          link.href = imgUrl;
-          // link.setAttribute("download", "image.png"); 
-          // document.body.appendChild(link);
-          link.download="image.png"
-          link.click();
-  }
+  // 
+  
+  
   useEffect(() => {
     const pk = window.localStorage.getItem("privateKey");
     const u = window.localStorage.getItem("user");
@@ -81,20 +80,15 @@ const Home = () => {
           
           <div className="p-0 bd-highlight  bg-light  ">
             <center><h4 className="card-title mt-0 p-3">Here are your uploaded photos</h4></center>
+            <div className=" d-flex justify-content-between flex-column  ">  
 
-
-            <div className=" d-flex justify-content-between flex-column  ">
-            
-         
             <center>          
             <div 
             id="allMedia" 
             className="w-100"
-            onClick={download}>   
+            >   
             </div>   
             </center>
-       
-            
             </div>
            
 
